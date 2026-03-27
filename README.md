@@ -1,6 +1,6 @@
 # 🌿 Consultório Ramos — Landing Page
 
-Página home institucional do **Consultório Ramos**, especializado em Endocrinologia e Metabologia. Desenvolvida com HTML5 e CSS3 puro, sem frameworks ou dependências externas.
+Página home institucional do **Consultório Ramos**, especializado em Endocrinologia e Metabologia. Desenvolvida com HTML5, CSS3 e JavaScript vanilla, sem frameworks ou dependências externas.
 
 ---
 
@@ -16,6 +16,7 @@ Landing page moderna e responsiva com foco em saúde hormonal, controle de peso 
 DEV-FRONT-END/
 ├── index.html       # Estrutura e conteúdo da página
 ├── style.css        # Estilos, animações e responsividade
+├── script.js        # Accordion, scroll reveal e interações
 └── README.md        # Documentação do projeto
 ```
 
@@ -53,7 +54,6 @@ DEV-FRONT-END/
 - **Blobs animados** — 4 formas circulares com `filter: blur` e animação `blobFloat` flutuando no hero
 - **Partículas flutuantes** — 8 partículas coloridas subindo pela tela em loop
 - **Gradiente animado** — texto "equilíbrio hormonal" com `gradientShift` contínuo
-- **Shimmer** — reflexo de luz deslizando sobre o bloco de estatísticas
 - **Badge dot pulsante** — indicador animado no badge do hero
 - **Scroll Reveal** — seções entram com fade + translateY ao aparecer na viewport via `IntersectionObserver`
 - **Marquee** — banner com palavras-chave deslizando horizontalmente em loop
@@ -69,7 +69,20 @@ Três cards expansíveis com conteúdo educativo sobre endocrinologia:
 - **Card 2 — Roxo** · O que é Menopausa
 - **Card 3 — Azul** · Distúrbios Hormonais
 
-**Comportamento:** apenas um card fica aberto por vez. Ao clicar em outro, o anterior fecha automaticamente.
+**Comportamento:** apenas um card fica aberto por vez. Ao clicar em outro, o anterior fecha automaticamente. Navegação por teclado suportada (`Enter`, `Space` para abrir/fechar, `Escape` para fechar).
+
+---
+
+## ♿ Acessibilidade
+
+- `skip-link` para pular direto ao conteúdo principal
+- `aria-expanded` nos cards accordion atualizado dinamicamente via JS
+- `aria-hidden="true"` em elementos decorativos (blobs, partículas, emojis, marquee)
+- `aria-label` em botões com conteúdo apenas visual
+- `role="button"` + `tabindex="0"` nos cards para navegação por teclado
+- `<address>` semântico no footer com telefone clicável
+- `focus-visible` com outline visível nos cards
+- Suporte a `prefers-reduced-motion` — todas as animações são desabilitadas para usuários que preferem menos movimento
 
 ---
 
@@ -80,7 +93,7 @@ Três cards expansíveis com conteúdo educativo sobre endocrinologia:
 | [Playfair Display](https://fonts.google.com/specimen/Playfair+Display) | Títulos, números de destaque, citações |
 | [Inter](https://fonts.google.com/specimen/Inter) | Corpo de texto, labels, botões |
 
-Carregadas via Google Fonts.
+Carregadas via Google Fonts com `preconnect` para melhor performance.
 
 ---
 
@@ -89,7 +102,7 @@ Carregadas via Google Fonts.
 - Hero empilha verticalmente em telas `≤ 768px`
 - Bloco de estatísticas passa para layout horizontal no mobile
 - Menu de navegação oculto em mobile
-- Tipografia fluida com `clamp()` nos títulos principais
+- Tipografia e espaçamentos fluidos com `clamp()` nos títulos e seções principais
 
 ---
 
@@ -98,8 +111,9 @@ Carregadas via Google Fonts.
 Não requer instalação ou build. Basta abrir o arquivo diretamente no navegador:
 
 ```bash
-# Clone ou baixe o projeto
-cd DEV-FRONT-END
+# Clone o projeto
+git clone https://github.com/andreyabrantes/front-6periodo.git
+cd front-6periodo/DEV-FRONT-END
 
 # Abra no navegador
 open index.html
@@ -111,9 +125,12 @@ open index.html
 ## 🛠️ Tecnologias
 
 - HTML5 semântico
-- CSS3 (variáveis, animações, grid, flexbox, backdrop-filter)
-- JavaScript vanilla (accordion + IntersectionObserver)
-- Google Fonts
+- CSS3 (variáveis, animações, grid, flexbox, backdrop-filter, clamp)
+- JavaScript vanilla
+  - Accordion com delegação de eventos e suporte a teclado
+  - `IntersectionObserver` para scroll reveal (desconecta após animar)
+  - `aria-expanded` atualizado dinamicamente
+- Google Fonts (Inter + Playfair Display)
 
 ---
 
