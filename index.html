@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Consultório Ramos</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">🌿 Consultório Ramos</div>
+    <ul class="nav-links">
+      <li><a href="#">Início</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="#">Serviços</a></li>
+      <li><a href="#">Contato</a></li>
+    </ul>
+    <a href="#agendar" class="btn-nav">Agendar Consulta</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-blob blob1"></div>
+    <div class="hero-blob blob2"></div>
+    <div class="hero-blob blob3"></div>
+    <div class="hero-blob blob4"></div>
+    <div class="particles">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="hero-content">
+      <span class="badge"><span class="badge-dot"></span> Equilíbrio · Saúde · Bem-estar</span>
+      <h1>Recupere seu<br/><span class="highlight">equilíbrio hormonal</span></h1>
+      <p class="hero-tagline">Controle o peso e viva com mais bem-estar!</p>
+      <p>No Consultório Ramos, oferecemos atendimento humanizado, moderno e personalizado para cada paciente.</p>
+      <div class="hero-btns">
+        <a href="#agendar" class="btn-primary"><span>Agendar Consulta</span></a>
+        <a href="#servicos" class="btn-ghost">Conheça nossos serviços ↓</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">✔ Sem fila de espera</div>
+        <div class="trust-item">✔ Atendimento humanizado</div>
+        <div class="trust-item">✔ Telemedicina disponível</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-stat-block">
+        <div class="hero-stat">
+          <span class="hero-stat-num">+1.200</span>
+          <span class="hero-stat-label">Pacientes atendidos</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">10+</span>
+          <span class="hero-stat-label">Anos de experiência</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">98%</span>
+          <span class="hero-stat-label">Índice de satisfação</span>
+        </div>
+      </div>
+      <p class="hero-visual-quote">"Cuidar da sua saúde hormonal é cuidar da sua qualidade de vida."</p>
+    </div>
+  </section>
+
+  <!-- BANNER SLOGAN -->
+  <div class="slogan-banner">
+    <div class="slogan-track">
+      <span>✦ Equilíbrio Hormonal</span>
+      <span>·</span>
+      <span>✦ Controle de Peso</span>
+      <span>·</span>
+      <span>✦ Bem-estar</span>
+      <span>·</span>
+      <span>✦ Saúde Preventiva</span>
+      <span>·</span>
+      <span>✦ Telemedicina</span>
+      <span>·</span>
+      <span>✦ Equilíbrio Hormonal</span>
+      <span>·</span>
+      <span>✦ Controle de Peso</span>
+      <span>·</span>
+      <span>✦ Bem-estar</span>
+      <span>·</span>
+      <span>✦ Saúde Preventiva</span>
+      <span>·</span>
+      <span>✦ Telemedicina</span>
+      <span>·</span>
+    </div>
+  </div>
+
+  <!-- CARDS INFORMATIVOS -->
+  <section class="servicos" id="servicos">
+    <h2>Saiba <span>mais</span></h2>
+    <p class="sub">Clique em um card para expandir o conteúdo</p>
+    <div class="info-cards">
+
+      <!-- CARD 1 -->
+      <div class="info-card green" onclick="toggleCard(this)">
+        <div class="info-card-header">
+          <div class="info-icon">🩺</div>
+          <div>
+            <h3>O que o endocrinologista faz</h3>
+            <p class="info-preview">Conheça o dia a dia desse especialista</p>
+          </div>
+          <span class="info-arrow">&#8964;</span>
+        </div>
+        <div class="info-card-body">
+          <p class="body-intro">Um médico da área de <strong>Endocrinologia e Metabologia</strong> trabalha com exames laboratoriais, acompanhamento contínuo e tratamento hormonal.</p>
+          <p class="body-label">Atuações principais</p>
+          <ul>
+            <li>Avaliação de hormônios</li>
+            <li>Diagnóstico de doenças hormonais</li>
+            <li>Tratamento de diabetes</li>
+            <li>Controle de obesidade</li>
+            <li>Acompanhamento da menopausa</li>
+            <li>Tratamento de doenças da tireoide</li>
+            <li>Regulação do metabolismo</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="info-card purple" onclick="toggleCard(this)">
+        <div class="info-card-header">
+          <div class="info-icon">🌸</div>
+          <div>
+            <h3>O que é Menopausa</h3>
+            <p class="info-preview">Entenda essa fase natural da vida da mulher</p>
+          </div>
+          <span class="info-arrow">&#8964;</span>
+        </div>
+        <div class="info-card-body">
+          <p class="body-intro">Fase natural em que a menstruação cessa definitivamente, ocorrendo geralmente entre <strong>45 e 55 anos</strong>, devido à redução de estrogênio e progesterona.</p>
+          <p class="body-label">Sintomas mais frequentes</p>
+          <ul>
+            <li>Ondas de calor (fogachos)</li>
+            <li>Suor noturno</li>
+            <li>Alterações de humor</li>
+            <li>Insônia</li>
+            <li>Diminuição da libido</li>
+            <li>Ressecamento vaginal</li>
+            <li>Ganho de peso</li>
+            <li>Perda de massa óssea — risco de Osteoporose</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="info-card blue" onclick="toggleCard(this)">
+        <div class="info-card-header">
+          <div class="info-icon">⚗️</div>
+          <div>
+            <h3>Distúrbios Hormonais</h3>
+            <p class="info-preview">O que são e quais os principais tipos</p>
+          </div>
+          <span class="info-arrow">&#8964;</span>
+        </div>
+        <div class="info-card-body">
+          <p class="body-intro">Ocorrem quando o corpo produz hormônios em excesso ou em falta, afetando glândulas como tireoide, hipófise, pâncreas, ovários e adrenais.</p>
+          <p class="body-label">Tireoide</p>
+          <ul>
+            <li>Hipotireoidismo — produção insuficiente de hormônio</li>
+            <li>Hipertireoidismo — produção excessiva</li>
+          </ul>
+          <p class="body-label">Metabólicos</p>
+          <ul>
+            <li>Diabetes mellitus</li>
+            <li>Resistência à insulina</li>
+          </ul>
+          <p class="body-label">Hormonais femininos</p>
+          <ul>
+            <li>Síndrome dos Ovários Policísticos (SOP)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- DEPOIMENTOS -->
+  <section class="depoimentos">
+    <h2>O que dizem nossos <span>pacientes</span></h2>
+    <div class="dep-grid">
+      <div class="dep-card">
+        <p>"Atendimento incrível! Me senti acolhida desde o primeiro momento. Recomendo muito!"</p>
+        <div class="dep-author"><span class="dep-avatar">🙋‍♀️</span><strong>Ana Paula S.</strong></div>
+      </div>
+      <div class="dep-card featured">
+        <p>"A Dra. Ramos é extremamente atenciosa e competente. Minha família toda é paciente aqui."</p>
+        <div class="dep-author"><span class="dep-avatar">👨‍👩‍👧</span><strong>Família Oliveira</strong></div>
+      </div>
+      <div class="dep-card">
+        <p>"Consultório moderno, equipe simpática e atendimento rápido. Nota 10!"</p>
+        <div class="dep-author"><span class="dep-avatar">🙋‍♂️</span><strong>Carlos M.</strong></div>
+      </div>
+  </section>
+
+  <!-- AGENDAMENTO CTA -->
+  <section class="cta" id="agendar">
+    <div class="cta-blob"></div>
+    <div class="cta-blob cta-blob2"></div>
+    <span class="cta-badge">✦ Comece hoje</span>
+    <h2>Recupere seu equilíbrio.<br/>Viva com mais saúde.</h2>
+    <p>Agende sua consulta agora mesmo. É rápido, fácil e seguro.</p>
+    <div class="cta-btns">
+      <a href="tel:+5500000000000" class="btn-primary"><span>📞 Ligar agora</span></a>
+      <a href="#" class="btn-ghost">💬 WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Consultório Ramos · Todos os direitos reservados</p>
+    <p>📍 Rua das Flores, 123 · São Paulo, SP &nbsp;|&nbsp; 📞 (00) 00000-0000</p>
+  </footer>
+
+  <script>
+    function toggleCard(card) {
+      const isOpen = card.classList.contains('open');
+      document.querySelectorAll('.info-card').forEach(c => c.classList.remove('open'));
+      if (!isOpen) card.classList.add('open');
+    }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.servicos, .depoimentos, .cta').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
