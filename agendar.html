@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Agendar Consulta – Consultório Ramos</title>
+  <meta name="description" content="Agende sua consulta online com a Dra. Fernanda Ramos. Escolha o melhor dia e horário para o seu atendimento de forma rápida e segura." />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="agendar.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -13,13 +14,14 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">🌿 Consultório Ramos</div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Início</a></li>
       <li><a href="sobre.html">Sobre</a></li>
       <li><a href="index.html#servicos">Serviços</a></li>
       <li><a href="agendar.html" class="nav-active">Agendar</a></li>
     </ul>
     <a href="agendar.html" class="btn-nav">Agendar Consulta</a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu">&#9776;</button>
   </nav>
 
   <!-- HERO -->
@@ -130,6 +132,20 @@
   </div>
 
   <script>
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-open');
+      hamburger.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('nav-open');
+        hamburger.classList.remove('active');
+      }
+    });
+
     // ── Estado ──
     const state = { year: 0, month: 0, selectedDate: null, selectedSlot: null };
     const TAKEN = { '09:00': true, '11:00': true, '14:30': true }; // slots ocupados (mock)

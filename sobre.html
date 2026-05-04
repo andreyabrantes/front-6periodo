@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sobre – Dra. Fernanda Ramos</title>
+  <meta name="description" content="Conheça a Dra. Fernanda Ramos, especialista em Endocrinologia, Metabologia e Menopausa. Atendimento humanizado e baseado em evidências científicas." />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="sobre.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -13,13 +14,14 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">🌿 Consultório Ramos</div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Início</a></li>
       <li><a href="sobre.html" class="nav-active">Sobre</a></li>
       <li><a href="index.html#servicos">Serviços</a></li>
       <li><a href="agendar.html">Agendar</a></li>
     </ul>
     <a href="agendar.html" class="btn-nav">Agendar Consulta</a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu">&#9776;</button>
   </nav>
 
   <!-- HERO SOBRE -->
@@ -113,6 +115,19 @@
   </footer>
 
   <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-open');
+      hamburger.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('nav-open');
+        hamburger.classList.remove('active');
+      }
+    });
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.15 });
