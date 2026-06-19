@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="agendar.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -107,7 +109,10 @@
           </div>
 
           <button type="submit" class="btn-submit" id="submitBtn" disabled>
-            Confirmar Agendamento
+            <span id="submitLabel">Confirmar Agendamento</span>
+            <span id="submitSpinner" class="btn-spinner" style="display:none">
+              <span class="spinner"></span> Enviando...
+            </span>
           </button>
         </form>
       </div>
@@ -120,21 +125,39 @@
     <p>📍 Rua das Flores, 123 · São Paulo, SP &nbsp;|&nbsp; 📞 (00) 00000-0000</p>
   </footer>
 
-  <!-- MODAL CONFIRMAÇÃO -->
+  <!-- MODAL SUCESSO -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <div class="modal-icon">✅</div>
       <h3>Consulta agendada!</h3>
-      <p>Sua solicitação foi recebida. Entraremos em contato para confirmar o agendamento.</p>
+      <p>Um e-mail de confirmação foi enviado para <strong id="modalEmail"></strong>. Verifique sua caixa de entrada.</p>
       <div class="modal-detail" id="modalDetail"></div>
       <button class="btn-submit" onclick="closeModal()">Fechar</button>
     </div>
   </div>
 
+  <!-- MODAL ERRO -->
+  <div class="modal-overlay" id="modalErro">
+    <div class="modal">
+      <div class="modal-icon">⚠️</div>
+      <h3>Ops! Algo deu errado.</h3>
+      <p>Não foi possível enviar o e-mail de confirmação. Tente novamente ou entre em contato pelo telefone <strong>(00) 00000-0000</strong>.</p>
+      <button class="btn-submit" onclick="document.getElementById('modalErro').classList.remove('open')">Tentar novamente</button>
+    </div>
+  </div>
+
   <script>
-    // Hamburger menu
+    // ── EmailJS — substitua pelos seus dados ──────────────────────────────
+    const EMAILJS_PUBLIC_KEY  = 'SUA_PUBLIC_KEY';   // Account > API Keys
+    const EMAILJS_SERVICE_ID  = 'SEU_SERVICE_ID';   // Email Services
+    const EMAILJS_TEMPLATE_ID = 'SEU_TEMPLATE_ID';  // Email Templates
+    // ─────────────────────────────────────────────────────────────────────
+
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+    // ── Hamburger ──
     const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
+    const navLinks  = document.getElementById('navLinks');
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('nav-open');
       hamburger.classList.toggle('active');
@@ -148,13 +171,14 @@
 
     // ── Estado ──
     const state = { year: 0, month: 0, selectedDate: null, selectedSlot: null };
-    const TAKEN = { '09:00': true, '11:00': true, '14:30': true }; // slots ocupados (mock)
+    const TAKEN     = { '09:00': true, '11:00': true, '14:30': true };
     const ALL_SLOTS = ['08:00','09:00','10:00','11:00','13:00','14:00','14:30','15:30','16:00','17:00'];
-    const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    const MONTHS    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    const WEEKDAYS  = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
 
     function init() {
       const now = new Date();
-      state.year = now.getFullYear();
+      state.year  = now.getFullYear();
       state.month = now.getMonth();
       renderCalendar();
     }
@@ -163,53 +187,43 @@
       const { year, month } = state;
       document.getElementById('calTitle').textContent = `${MONTHS[month]} ${year}`;
 
-      const firstDay = new Date(year, month, 1).getDay();
+      const firstDay    = new Date(year, month, 1).getDay();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const today = new Date();
-      today.setHours(0,0,0,0);
+      const today       = new Date(); today.setHours(0,0,0,0);
+      const grid        = document.getElementById('calDays');
+      grid.innerHTML    = '';
 
-      const grid = document.getElementById('calDays');
-      grid.innerHTML = '';
-
-      // Células vazias antes do dia 1
       for (let i = 0; i < firstDay; i++) {
         const el = document.createElement('button');
-        el.className = 'cal-day empty';
-        el.disabled = true;
+        el.className = 'cal-day empty'; el.disabled = true;
         grid.appendChild(el);
       }
 
       for (let d = 1; d <= daysInMonth; d++) {
-        const date = new Date(year, month, d);
-        const el = document.createElement('button');
-        el.textContent = d;
-        el.className = 'cal-day';
+        const date      = new Date(year, month, d);
+        const el        = document.createElement('button');
+        el.textContent  = d;
+        el.className    = 'cal-day';
 
-        const isPast = date < today;
-        const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-        const isToday = date.toDateString() === today.toDateString();
+        const isPast     = date < today;
+        const isWeekend  = date.getDay() === 0 || date.getDay() === 6;
+        const isToday    = date.toDateString() === today.toDateString();
         const isSelected = state.selectedDate && date.toDateString() === state.selectedDate.toDateString();
 
         if (isPast || isWeekend) {
-          el.classList.add('disabled');
-          el.disabled = true;
+          el.classList.add('disabled'); el.disabled = true;
         } else {
-          if (isToday) el.classList.add('today');
+          if (isToday)    el.classList.add('today');
           if (isSelected) el.classList.add('selected');
           el.addEventListener('click', () => selectDate(date));
         }
-
         grid.appendChild(el);
       }
     }
 
     function selectDate(date) {
-      state.selectedDate = date;
-      state.selectedSlot = null;
-      renderCalendar();
-      renderSlots();
-      updateSummary();
-      updateSubmit();
+      state.selectedDate = date; state.selectedSlot = null;
+      renderCalendar(); renderSlots(); updateSummary(); updateSubmit();
     }
 
     function renderSlots() {
@@ -219,14 +233,13 @@
       grid.innerHTML = '';
 
       ALL_SLOTS.forEach(slot => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
+        const btn      = document.createElement('button');
+        btn.type       = 'button';
         btn.textContent = slot;
-        btn.className = 'slot-btn';
+        btn.className  = 'slot-btn';
 
         if (TAKEN[slot]) {
-          btn.classList.add('taken');
-          btn.disabled = true;
+          btn.classList.add('taken'); btn.disabled = true;
         } else {
           if (state.selectedSlot === slot) btn.classList.add('selected');
           btn.addEventListener('click', () => selectSlot(slot));
@@ -237,16 +250,13 @@
 
     function selectSlot(slot) {
       state.selectedSlot = slot;
-      renderSlots();
-      updateSummary();
-      updateSubmit();
+      renderSlots(); updateSummary(); updateSubmit();
     }
 
     function updateSummary() {
       const el = document.getElementById('bookingSummary');
       if (state.selectedDate && state.selectedSlot) {
-        const d = state.selectedDate;
-        const fmt = d.toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long' });
+        const fmt = state.selectedDate.toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long' });
         el.textContent = `📅 ${fmt} às ${state.selectedSlot}`;
         el.classList.remove('empty');
       } else if (state.selectedDate) {
@@ -262,7 +272,7 @@
       document.getElementById('submitBtn').disabled = !(state.selectedDate && state.selectedSlot);
     }
 
-    // Navegação de meses
+    // ── Navegação de meses ──
     document.getElementById('prevMonth').addEventListener('click', () => {
       const now = new Date();
       if (state.year === now.getFullYear() && state.month === now.getMonth()) return;
@@ -283,22 +293,60 @@
       updateSummary(); updateSubmit();
     });
 
-    // Submit
-    document.getElementById('agendarForm').addEventListener('submit', (e) => {
+    // ── Submit com EmailJS ──
+    document.getElementById('agendarForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const nome = document.getElementById('nome').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const tipo = document.getElementById('tipo').value;
+
+      const nome     = document.getElementById('nome').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const tipo     = document.getElementById('tipo').value;
+      const obs      = document.getElementById('obs').value.trim();
+
       if (!nome || !email || !tipo) {
         alert('Por favor, preencha todos os campos obrigatórios.');
         return;
       }
-      const d = state.selectedDate;
-      const fmt = d.toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-      document.getElementById('modalDetail').innerHTML =
-        `<strong>${nome}</strong><br>${fmt}<br>🕐 ${state.selectedSlot}<br>📋 ${tipo}`;
-      document.getElementById('modalOverlay').classList.add('open');
+
+      const d         = state.selectedDate;
+      const dataFmt   = d.toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+      const diaSemana = WEEKDAYS[d.getDay()];
+
+      setLoading(true);
+
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          to_name:    nome,
+          to_email:   email,
+          telefone:   telefone,
+          tipo:       tipo,
+          data:       dataFmt,
+          dia_semana: diaSemana,
+          horario:    state.selectedSlot,
+          obs:        obs || 'Nenhuma observação informada.',
+        });
+
+        document.getElementById('modalEmail').textContent  = email;
+        document.getElementById('modalDetail').innerHTML   =
+          `<strong>${nome}</strong><br>📅 ${dataFmt}<br>🕐 ${state.selectedSlot}<br>📋 ${tipo}`;
+        document.getElementById('modalOverlay').classList.add('open');
+
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        document.getElementById('modalErro').classList.add('open');
+      } finally {
+        setLoading(false);
+      }
     });
+
+    function setLoading(on) {
+      const btn     = document.getElementById('submitBtn');
+      const label   = document.getElementById('submitLabel');
+      const spinner = document.getElementById('submitSpinner');
+      btn.disabled      = on;
+      label.style.display   = on ? 'none'   : 'inline';
+      spinner.style.display = on ? 'inline' : 'none';
+    }
 
     function closeModal() {
       document.getElementById('modalOverlay').classList.remove('open');
@@ -309,16 +357,16 @@
       updateSummary(); updateSubmit();
     }
 
-    // Scroll reveal
+    // ── Scroll reveal ──
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.agendar-section').forEach(el => observer.observe(el));
 
-    // Máscara telefone
+    // ── Máscara telefone ──
     document.getElementById('telefone').addEventListener('input', (e) => {
       let v = e.target.value.replace(/\D/g,'').slice(0,11);
-      if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+      if (v.length > 6)      v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
       else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
       else if (v.length > 0) v = `(${v}`;
       e.target.value = v;
