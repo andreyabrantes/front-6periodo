@@ -1,75 +1,117 @@
-# 🌿 Consultório Ramos — Landing Page
+# 🌿 Consultório Ramos — Site Institucional
 
-Página home institucional do **Consultório Ramos**, especializado em Endocrinologia e Metabologia. Desenvolvida com HTML5 e CSS3 puro, sem frameworks ou dependências externas.
+Site institucional do **Consultório Ramos**, especializado em Endocrinologia, Metabologia e Menopausa. Desenvolvido com HTML5, CSS3 e JavaScript puro, sem frameworks ou dependências externas (exceto EmailJS para envio de e-mails).
 
 ---
 
 ## 📋 Sobre o Projeto
 
-Landing page moderna e responsiva com foco em saúde hormonal, controle de peso e bem-estar. O design utiliza uma paleta de cores pastel (roxo, verde e azul) com efeitos visuais sofisticados como blobs animados, partículas flutuantes e animações de scroll reveal.
+Site moderno e responsivo com foco em saúde hormonal, controle de peso e bem-estar. O design utiliza uma paleta de cores pastel (roxo, verde e azul) com efeitos visuais sofisticados como blobs animados, partículas flutuantes e animações de scroll reveal.
 
 ---
 
 ## 🗂️ Estrutura de Arquivos
 
 ```
-DEV-FRONT-END/
-├── index.html       # Estrutura e conteúdo da página
-├── style.css        # Estilos, animações e responsividade
-└── README.md        # Documentação do projeto
+front-6periodo-master/
+├── index.html               # Página inicial (landing page)
+├── style.css                # Estilos globais, navbar, hero, componentes compartilhados
+├── sobre.html               # Página Sobre — bio da Dra. Fernanda Ramos
+├── sobre.css                # Estilos específicos da página Sobre
+├── agendar.html             # Página de agendamento de consultas
+├── agendar.css              # Estilos específicos da página Agendar
+├── pre-avaliacao.html       # Página de pré-avaliação de pacientes (formulário multi-etapas)
+├── pre-avaliacao.css        # Estilos específicos da página Pré-Avaliação
+├── email-template-pre-avaliacao.html  # Template HTML do e-mail de pré-avaliação (EmailJS)
+└── README.md                # Documentação do projeto
 ```
 
 ---
 
-## 📄 Seções da Página
+## 📄 Páginas
 
+### 🏠 index.html — Início
 | Seção | Descrição |
 |---|---|
 | **Navbar** | Navegação fixa com blur, links e botão de agendamento |
-| **Hero** | Título principal, tagline, botões de CTA, trust badges e bloco de estatísticas |
+| **Hero** | Título, tagline, botões de CTA, trust badges e bloco de estatísticas |
 | **Banner Marquee** | Faixa animada com palavras-chave do consultório |
 | **Cards Informativos** | 3 cards accordion expansíveis com conteúdo educativo |
 | **Depoimentos** | 3 cards com avaliações de pacientes |
-| **CTA** | Seção de chamada para agendamento com botões de contato |
+| **CTA** | Chamada para agendamento com botões de contato |
 | **Footer** | Endereço, telefone e direitos autorais |
+
+### 👩‍⚕️ sobre.html — Sobre
+| Seção | Descrição |
+|---|---|
+| **Hero** | Badge, título e tagline da especialista |
+| **Bio** | Texto de apresentação da Dra. Fernanda Ramos com botão de agendamento |
+| **Especialidades** | 3 cards com as áreas de atuação |
+| **CTA + Footer** | Chamada para agendamento e rodapé |
+
+### 📅 agendar.html — Agendar Consulta
+| Seção | Descrição |
+|---|---|
+| **Hero** | Título e tagline da página |
+| **Calendário** | Navegação por mês, seleção de datas disponíveis (bloqueia fins de semana e datas passadas) |
+| **Horários** | Grade de slots disponíveis/ocupados para a data selecionada |
+| **Formulário** | Nome, telefone, e-mail, tipo de consulta e observações |
+| **Resumo** | Exibe data e horário selecionados em tempo real |
+| **Modal Sucesso/Erro** | Feedback após envio via EmailJS |
+
+### 📋 pre-avaliacao.html — Pré-Avaliação
+Formulário multi-etapas com barra de progresso animada.
+
+| Etapa | Campos |
+|---|---|
+| **1 — Dados Pessoais** | Nome, data de nascimento, CPF, sexo, telefone, e-mail, peso, altura, convênio |
+| **2 — Saúde Geral** | Motivo da consulta, doenças diagnosticadas, alergias, medicamentos em uso, histórico familiar |
+| **3 — Estilo de Vida** | Atividade física, alimentação, nível de estresse (slider), sono, tabagismo, observações finais |
+
+Ao enviar, dispara um e-mail formatado para o consultório via **EmailJS**.
+
+---
+
+## 📧 Integração EmailJS
+
+Ambas as páginas de agendamento e pré-avaliação utilizam [EmailJS](https://emailjs.com) para envio de e-mails sem backend.
+
+| Chave | Valor |
+|---|---|
+| **Public Key** | `tDOOgh3i3HfAYauD6` |
+| **Service ID** | `service_j3r3arh` |
+| **Template — Agendar** | `template_bdtsohd` |
+| **Template — Pré-Avaliação** | `template_ka5uizn` |
+
+O arquivo `email-template-pre-avaliacao.html` contém o HTML do template de e-mail da pré-avaliação, com todas as variáveis `{{variavel}}` mapeadas.
 
 ---
 
 ## 🎨 Paleta de Cores
 
-| Cor | Hex | Uso |
+| Variável | Hex | Uso |
 |---|---|---|
-| Roxo | `#795ea0` | Cor primária, botões, destaques |
-| Verde | `#9fc392` | Blobs, cards verdes, elementos de saúde |
-| Azul | `#74a3b2` | Blobs, cards azuis, gradientes |
-| Dark | `#1e1b2e` | Textos principais |
-| Gray | `#6b7280` | Textos secundários |
-| Background | `#f4f0fa` | Fundo geral da página |
+| `--purple` | `#795ea0` | Cor primária, botões, destaques |
+| `--purple2` | `#c4b3df` | Bordas, elementos secundários |
+| `--purple3` | `#ede6f7` | Fundos suaves, badges |
+| `--green` | `#9fc392` | Blobs, cards verdes |
+| `--blue` | `#74a3b2` | Blobs, cards azuis, gradientes |
+| `--dark` | `#1e1b2e` | Textos principais |
+| `--gray` | `#6b7280` | Textos secundários |
+| `--bg` | `#f4f0fa` | Fundo geral |
 
 ---
 
 ## ✨ Efeitos Visuais
 
-- **Blobs animados** — 4 formas circulares com `filter: blur` e animação `blobFloat` flutuando no hero
-- **Partículas flutuantes** — 8 partículas coloridas subindo pela tela em loop
-- **Gradiente animado** — texto "equilíbrio hormonal" com `gradientShift` contínuo
-- **Shimmer** — reflexo de luz deslizando sobre o bloco de estatísticas
-- **Badge dot pulsante** — indicador animado no badge do hero
-- **Scroll Reveal** — seções entram com fade + translateY ao aparecer na viewport via `IntersectionObserver`
-- **Marquee** — banner com palavras-chave deslizando horizontalmente em loop
+- **Blobs animados** — formas circulares com `filter: blur` flutuando nos heroes
+- **Partículas flutuantes** — 8 partículas coloridas subindo em loop
+- **Gradiente animado** — texto highlight com `gradientShift` contínuo
+- **Badge dot pulsante** — indicador animado nos badges
+- **Scroll Reveal** — seções entram com fade + `translateY` via `IntersectionObserver`
+- **Marquee** — banner com palavras-chave deslizando em loop
 - **Hover nos cards** — elevação suave com `translateY` e `box-shadow`
-
----
-
-## 🃏 Cards Informativos (Accordion)
-
-Três cards expansíveis com conteúdo educativo sobre endocrinologia:
-
-- **Card 1 — Verde** · O que o endocrinologista faz
-- **Card 2 — Roxo** · O que é Menopausa
-- **Card 3 — Azul** · Distúrbios Hormonais
-
-**Comportamento:** apenas um card fica aberto por vez. Ao clicar em outro, o anterior fecha automaticamente.
+- **Stepper animado** — barra de progresso e dots com transição de estado na pré-avaliação
 
 ---
 
@@ -87,19 +129,20 @@ Carregadas via Google Fonts.
 ## 📱 Responsividade
 
 - Hero empilha verticalmente em telas `≤ 768px`
-- Bloco de estatísticas passa para layout horizontal no mobile
-- Menu de navegação oculto em mobile
+- Menu de navegação vira hamburger no mobile
+- Grid de agendamento passa para coluna única no mobile
+- Formulário de pré-avaliação adapta colunas para `1fr` no mobile
 - Tipografia fluida com `clamp()` nos títulos principais
 
 ---
 
 ## 🚀 Como Usar
 
-Não requer instalação ou build. Basta abrir o arquivo diretamente no navegador:
+Não requer instalação ou build. Basta abrir qualquer arquivo diretamente no navegador:
 
 ```bash
-# Clone ou baixe o projeto
-cd DEV-FRONT-END
+# Clone o repositório
+git clone https://github.com/andreyabrantes/front-6periodo.git
 
 # Abra no navegador
 open index.html
