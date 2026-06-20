@@ -147,10 +147,10 @@
   </div>
 
   <script>
-    // ── EmailJS — substitua pelos seus dados ──────────────────────────────
-    const EMAILJS_PUBLIC_KEY  = 'SUA_PUBLIC_KEY';   // Account > API Keys
-    const EMAILJS_SERVICE_ID  = 'SEU_SERVICE_ID';   // Email Services
-    const EMAILJS_TEMPLATE_ID = 'SEU_TEMPLATE_ID';  // Email Templates
+    // ── EmailJS ───────────────────────────────────────────────────────────
+    const EMAILJS_PUBLIC_KEY  = 'tDOOgh3i3HfAYauD6';
+    const EMAILJS_SERVICE_ID  = 'service_n3wx5pm';
+    const EMAILJS_TEMPLATE_ID = 'template_bdtsohd';
     // ─────────────────────────────────────────────────────────────────────
 
     emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
@@ -321,6 +321,7 @@
           telefone:   telefone,
           tipo:       tipo,
           data:       dataFmt,
+          data_curta: d.toLocaleDateString('pt-BR', { day:'numeric', month:'long' }),
           dia_semana: diaSemana,
           horario:    state.selectedSlot,
           obs:        obs || 'Nenhuma observação informada.',
