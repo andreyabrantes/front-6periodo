@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pré-Avaliação – Consultório Ramos</title>
+  <meta name="description" content="Preencha sua pré-avaliação antes da consulta com a Dra. Fernanda Ramos. Nos ajude a conhecer melhor seu histórico de saúde." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="pre-avaliacao.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">🌿 Consultório Ramos</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="index.html#servicos">Serviços</a></li>
+      <li><a href="agendar.html">Agendar</a></li>
+      <li><a href="pre-avaliacao.html" class="nav-active">Pré-Avaliação</a></li>
+    </ul>
+    <a href="agendar.html" class="btn-nav">Agendar Consulta</a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu">&#9776;</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="preavaliacao-hero">
+    <div class="hero-blob blob1"></div>
+    <div class="hero-blob blob2"></div>
+    <div class="hero-blob blob3"></div>
+    <div class="particles">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="preavaliacao-hero-content">
+      <span class="badge"><span class="badge-dot"></span> Rápido · Confidencial · Importante</span>
+      <h1>Pré-<span class="highlight">avaliação</span></h1>
+      <p class="hero-tagline">Preencha antes da sua consulta para que a Dra. Fernanda possa te atender ainda melhor.</p>
+    </div>
+  </section>
+
+  <!-- FORMULÁRIO PRINCIPAL -->
+  <section class="preavaliacao-section" id="preAvaliacao">
+    <div class="preavaliacao-wrapper">
+
+      <!-- BARRA DE PROGRESSO -->
+      <div class="progress-bar-wrap">
+        <div class="progress-steps" id="progressSteps">
+          <div class="progress-line" id="progressLine" style="width:0%"></div>
+          <div class="step-dot active" data-step="1">1</div>
+          <div class="step-dot" data-step="2">2</div>
+          <div class="step-dot" data-step="3">3</div>
+        </div>
+        <div class="progress-labels">
+          <span class="active" id="lbl1">Dados pessoais</span>
+          <span id="lbl2">Saúde</span>
+          <span id="lbl3">Estilo de vida</span>
+        </div>
+      </div>
+
+      <!-- ETAPA 1 – DADOS PESSOAIS -->
+      <div class="form-step-card" id="step1">
+        <div class="step-header">
+          <h2>👤 Dados pessoais</h2>
+          <p>Informações básicas para identificação do paciente.</p>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="nomeCompleto">Nome completo *</label>
+            <input type="text" id="nomeCompleto" placeholder="Seu nome completo" required />
+          </div>
+          <div class="form-group">
+            <label for="dataNasc">Data de nascimento *</label>
+            <input type="date" id="dataNasc" required />
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="cpf">CPF *</label>
+            <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" required />
+          </div>
+          <div class="form-group">
+            <label for="sexo">Sexo biológico *</label>
+            <select id="sexo" required>
+              <option value="">Selecione...</option>
+              <option>Feminino</option>
+              <option>Masculino</option>
+              <option>Prefiro não informar</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="telefone1">Telefone *</label>
+            <input type="tel" id="telefone1" placeholder="(00) 00000-0000" required />
+          </div>
+          <div class="form-group">
+            <label for="email1">E-mail *</label>
+            <input type="email" id="email1" placeholder="seu@email.com" required />
+          </div>
+        </div>
+
+        <div class="form-row-3">
+          <div class="form-group">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" id="peso" placeholder="ex: 70" min="20" max="300" />
+          </div>
+          <div class="form-group">
+            <label for="altura">Altura (cm)</label>
+            <input type="number" id="altura" placeholder="ex: 168" min="100" max="250" />
+          </div>
+          <div class="form-group">
+            <label for="convenio">Convênio</label>
+            <select id="convenio">
+              <option value="">Particular</option>
+              <option>Unimed</option>
+              <option>Bradesco Saúde</option>
+              <option>Amil</option>
+              <option>SulAmérica</option>
+              <option>Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <span class="step-counter">Etapa 1 de 3</span>
+          <button class="btn-step-next" id="next1">Próximo ›</button>
+        </div>
+      </div>
+
+      <!-- ETAPA 2 – SAÚDE GERAL -->
+      <div class="form-step-card" id="step2" style="display:none">
+        <div class="step-header">
+          <h2>🩺 Saúde geral</h2>
+          <p>Informe seu histórico médico para melhor acompanhamento.</p>
+        </div>
+
+        <div class="form-group">
+          <label>Motivo principal da consulta *</label>
+          <textarea id="motivoConsulta" placeholder="Descreva em detalhes o que te trouxe ao consultório..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Possui alguma doença diagnosticada? Marque todas que se aplicam:</label>
+          <div class="check-group" id="doencasList">
+            <label class="check-item"><input type="checkbox" value="Hipertensão"/><span class="check-box">✓</span>Hipertensão</label>
+            <label class="check-item"><input type="checkbox" value="Diabetes"/><span class="check-box">✓</span>Diabetes</label>
+            <label class="check-item"><input type="checkbox" value="Hipotireoidismo"/><span class="check-box">✓</span>Hipotireoidismo</label>
+            <label class="check-item"><input type="checkbox" value="Hipertireoidismo"/><span class="check-box">✓</span>Hipertireoidismo</label>
+            <label class="check-item"><input type="checkbox" value="Colesterol alto"/><span class="check-box">✓</span>Colesterol alto</label>
+            <label class="check-item"><input type="checkbox" value="Ansiedade/Depressão"/><span class="check-box">✓</span>Ansiedade / Depressão</label>
+            <label class="check-item"><input type="checkbox" value="Gastrite/Refluxo"/><span class="check-box">✓</span>Gastrite / Refluxo</label>
+            <label class="check-item"><input type="checkbox" value="Nenhuma"/><span class="check-box">✓</span>Nenhuma</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="alergias">Alergias conhecidas (medicamentos, alimentos, etc.)</label>
+          <input type="text" id="alergias" placeholder="ex: Dipirona, amendoim, látex... ou Nenhuma" />
+        </div>
+
+        <div class="form-group">
+          <label for="medicamentos">Medicamentos em uso contínuo</label>
+          <textarea id="medicamentos" placeholder="Liste nome e dose dos medicamentos que usa regularmente, ou deixe em branco." style="min-height:70px"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Histórico familiar (doenças em parentes de 1º grau)</label>
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox" value="Câncer"/><span class="check-box">✓</span>Câncer</label>
+            <label class="check-item"><input type="checkbox" value="Diabetes familiar"/><span class="check-box">✓</span>Diabetes</label>
+            <label class="check-item"><input type="checkbox" value="Doenças cardíacas"/><span class="check-box">✓</span>Doenças cardíacas</label>
+            <label class="check-item"><input type="checkbox" value="AVC familiar"/><span class="check-box">✓</span>AVC</label>
+            <label class="check-item"><input type="checkbox" value="Hipertensão familiar"/><span class="check-box">✓</span>Hipertensão</label>
+            <label class="check-item"><input type="checkbox" value="Desconhecido"/><span class="check-box">✓</span>Desconhecido</label>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-step-back" id="back2">‹ Voltar</button>
+          <span class="step-counter">Etapa 2 de 3</span>
+          <button class="btn-step-next" id="next2">Próximo ›</button>
+        </div>
+      </div>
+
+      <!-- ETAPA 3 – ESTILO DE VIDA -->
+      <div class="form-step-card" id="step3" style="display:none">
+        <div class="step-header">
+          <h2>🌱 Estilo de vida</h2>
+          <p>Nos ajude a entender seus hábitos para um cuidado mais completo.</p>
+        </div>
+
+        <div class="form-group">
+          <label>Pratica atividade física?</label>
+          <div class="check-group">
+            <label class="check-item radio-item"><input type="radio" name="atividadeFisica" value="Não pratico"/><span class="check-box">●</span>Não pratico</label>
+            <label class="check-item radio-item"><input type="radio" name="atividadeFisica" value="1-2x por semana"/><span class="check-box">●</span>1-2× por semana</label>
+            <label class="check-item radio-item"><input type="radio" name="atividadeFisica" value="3-4x por semana"/><span class="check-box">●</span>3-4× por semana</label>
+            <label class="check-item radio-item"><input type="radio" name="atividadeFisica" value="5+ vezes por semana"/><span class="check-box">●</span>5+ vezes</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Como você classifica sua alimentação?</label>
+          <div class="check-group">
+            <label class="check-item radio-item"><input type="radio" name="alimentacao" value="Muito ruim"/><span class="check-box">●</span>Muito ruim</label>
+            <label class="check-item radio-item"><input type="radio" name="alimentacao" value="Ruim"/><span class="check-box">●</span>Ruim</label>
+            <label class="check-item radio-item"><input type="radio" name="alimentacao" value="Regular"/><span class="check-box">●</span>Regular</label>
+            <label class="check-item radio-item"><input type="radio" name="alimentacao" value="Boa"/><span class="check-box">●</span>Boa</label>
+            <label class="check-item radio-item"><input type="radio" name="alimentacao" value="Muito boa"/><span class="check-box">●</span>Muito boa</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Nível de estresse diário</label>
+          <div class="range-group">
+            <input type="range" id="nivelEstresse" min="1" max="10" value="5"
+              oninput="document.getElementById('estresseVal').textContent = this.value" />
+            <div class="range-value" id="estresseVal">5</div>
+            <div class="range-labels"><span>Sem estresse</span><span>Estresse intenso</span></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Horas de sono por noite (média)</label>
+          <div class="check-group">
+            <label class="check-item radio-item"><input type="radio" name="sono" value="Menos de 5h"/><span class="check-box">●</span>Menos de 5h</label>
+            <label class="check-item radio-item"><input type="radio" name="sono" value="5-6h"/><span class="check-box">●</span>5–6h</label>
+            <label class="check-item radio-item"><input type="radio" name="sono" value="7-8h"/><span class="check-box">●</span>7–8h</label>
+            <label class="check-item radio-item"><input type="radio" name="sono" value="Mais de 8h"/><span class="check-box">●</span>Mais de 8h</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Fuma ou já fumou?</label>
+          <div class="check-group">
+            <label class="check-item radio-item"><input type="radio" name="tabagismo" value="Nunca fumei"/><span class="check-box">●</span>Nunca fumei</label>
+            <label class="check-item radio-item"><input type="radio" name="tabagismo" value="Ex-fumante"/><span class="check-box">●</span>Ex-fumante</label>
+            <label class="check-item radio-item"><input type="radio" name="tabagismo" value="Fumo atualmente"/><span class="check-box">●</span>Fumo atualmente</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="obsFinais">Algo mais que gostaria de informar?</label>
+          <textarea id="obsFinais" placeholder="Dúvidas, sintomas extras, informações relevantes..."></textarea>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-step-back" id="back3">‹ Voltar</button>
+          <span class="step-counter">Etapa 3 de 3</span>
+          <button class="btn-step-next" id="submitBtn">
+            <span id="submitLabel">Enviar pré-avaliação ✓</span>
+            <span id="submitSpinner" style="display:none"><span class="spinner"></span> Enviando...</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Consultório Ramos · Todos os direitos reservados</p>
+    <p>📍 Rua das Flores, 123 · São Paulo, SP &nbsp;|&nbsp; 📞 (00) 00000-0000</p>
+  </footer>
+
+  <!-- MODAL SUCESSO -->
+  <div class="modal-overlay" id="modalSucesso">
+    <div class="modal">
+      <div class="modal-icon">✅</div>
+      <h3>Pré-avaliação enviada!</h3>
+      <p>Suas informações foram registradas com sucesso. A Dra. Fernanda revisará antes da sua consulta.</p>
+      <div class="modal-detail" id="modalResumo"></div>
+      <button class="btn-modal" onclick="window.location.href='agendar.html'">Agendar consulta →</button>
+    </div>
+  </div>
+
+  <script>
+    // ── Hamburger ──
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('nav-open');
+      hamburger.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('nav-open');
+        hamburger.classList.remove('active');
+      }
+    });
+
+    // ── Scroll reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.preavaliacao-section').forEach(el => observer.observe(el));
+
+    // ── Stepper ──
+    let currentStep = 1;
+    const TOTAL = 3;
+
+    function showStep(n) {
+      for (let i = 1; i <= TOTAL; i++) {
+        document.getElementById(`step${i}`).style.display = i === n ? 'block' : 'none';
+      }
+      // Dots
+      document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+        const s = idx + 1;
+        dot.classList.remove('active', 'done');
+        if (s < n)      dot.classList.add('done'),   dot.textContent = '✓';
+        else if (s === n) dot.classList.add('active'), dot.textContent = s;
+        else            dot.textContent = s;
+      });
+      // Labels
+      for (let i = 1; i <= TOTAL; i++) {
+        document.getElementById(`lbl${i}`).classList.toggle('active', i === n);
+      }
+      // Progress line
+      const pct = ((n - 1) / (TOTAL - 1)) * 100;
+      document.getElementById('progressLine').style.width = pct + '%';
+      currentStep = n;
+    }
+
+    // ── Checkboxes / Radios custom ──
+    document.querySelectorAll('.check-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const input = item.querySelector('input');
+        if (input.type === 'radio') {
+          const name = input.name;
+          document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+            r.closest('.check-item').classList.remove('checked');
+          });
+          input.checked = true;
+          item.classList.add('checked');
+        } else {
+          input.checked = !input.checked;
+          item.classList.toggle('checked', input.checked);
+        }
+      });
+    });
+
+    // ── Máscara CPF ──
+    document.getElementById('cpf').addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 9)      v = `${v.slice(0,3)}.${v.slice(3,6)}.${v.slice(6,9)}-${v.slice(9)}`;
+      else if (v.length > 6) v = `${v.slice(0,3)}.${v.slice(3,6)}.${v.slice(6)}`;
+      else if (v.length > 3) v = `${v.slice(0,3)}.${v.slice(3)}`;
+      e.target.value = v;
+    });
+
+    // ── Máscara telefone ──
+    document.getElementById('telefone1').addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 6)      v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+      else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+      else if (v.length > 0) v = `(${v}`;
+      e.target.value = v;
+    });
+
+    // ── Validação etapa 1 ──
+    function validateStep1() {
+      const nome  = document.getElementById('nomeCompleto').value.trim();
+      const nasc  = document.getElementById('dataNasc').value;
+      const cpf   = document.getElementById('cpf').value.trim();
+      const sexo  = document.getElementById('sexo').value;
+      const tel   = document.getElementById('telefone1').value.trim();
+      const email = document.getElementById('email1').value.trim();
+      if (!nome || !nasc || !cpf || !sexo || !tel || !email) {
+        alert('Por favor, preencha todos os campos obrigatórios (*).');
+        return false;
+      }
+      return true;
+    }
+
+    // ── Validação etapa 2 ──
+    function validateStep2() {
+      const motivo = document.getElementById('motivoConsulta').value.trim();
+      if (!motivo) {
+        alert('Por favor, informe o motivo principal da consulta.');
+        return false;
+      }
+      return true;
+    }
+
+    // ── Navegação ──
+    document.getElementById('next1').addEventListener('click', () => {
+      if (validateStep1()) showStep(2);
+    });
+    document.getElementById('back2').addEventListener('click', () => showStep(1));
+    document.getElementById('next2').addEventListener('click', () => {
+      if (validateStep2()) showStep(3);
+    });
+    document.getElementById('back3').addEventListener('click', () => showStep(2));
+
+    // ── EmailJS config ──
+    // Template variables: {{to_name}}, {{to_email}}, {{telefone}}, {{data_nasc}},
+    // {{sexo}}, {{cpf}}, {{peso}}, {{altura}}, {{convenio}}, {{motivo}},
+    // {{doencas}}, {{alergias}}, {{medicamentos}}, {{hist_familiar}},
+    // {{atividade}}, {{alimentacao}}, {{estresse}}, {{sono}}, {{tabagismo}}, {{obs}}
+    const EMAILJS_PUBLIC_KEY  = 'tDOOgh3i3HfAYauD6';
+    const EMAILJS_SERVICE_ID  = 'service_j3r3arh';
+    const EMAILJS_TEMPLATE_ID = 'template_ka5uizn';
+
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+    // ── Submit ──
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+      const label   = document.getElementById('submitLabel');
+      const spinner = document.getElementById('submitSpinner');
+      const btn     = document.getElementById('submitBtn');
+
+      const nome         = document.getElementById('nomeCompleto').value.trim();
+      const email        = document.getElementById('email1').value.trim();
+      const telefone     = document.getElementById('telefone1').value.trim();
+      const dataNasc     = document.getElementById('dataNasc').value;
+      const sexo         = document.getElementById('sexo').value;
+      const cpf          = document.getElementById('cpf').value.trim();
+      const peso         = document.getElementById('peso').value || 'Não informado';
+      const altura       = document.getElementById('altura').value || 'Não informado';
+      const convenio     = document.getElementById('convenio').value || 'Particular';
+      const motivo       = document.getElementById('motivoConsulta').value.trim();
+      const alergias     = document.getElementById('alergias').value.trim() || 'Nenhuma';
+      const medicamentos = document.getElementById('medicamentos').value.trim() || 'Nenhum';
+      const estresse     = document.getElementById('nivelEstresse').value;
+      const obs          = document.getElementById('obsFinais').value.trim() || 'Nenhuma';
+
+      const doencas = [...document.querySelectorAll('#doencasList input:checked')]
+        .map(el => el.value).join(', ') || 'Nenhuma';
+
+      const histFamiliar = [...document.querySelectorAll('#step2 .check-group:last-of-type input:checked')]
+        .map(el => el.value).join(', ') || 'Não informado';
+
+      const atividade   = document.querySelector('input[name="atividadeFisica"]:checked')?.value || 'Não informado';
+      const alimentacao = document.querySelector('input[name="alimentacao"]:checked')?.value     || 'Não informado';
+      const sono        = document.querySelector('input[name="sono"]:checked')?.value            || 'Não informado';
+      const tabagismo   = document.querySelector('input[name="tabagismo"]:checked')?.value       || 'Não informado';
+
+      btn.disabled          = true;
+      label.style.display   = 'none';
+      spinner.style.display = 'inline-flex';
+
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          to_name: nome, to_email: email, telefone, data_nasc: dataNasc,
+          sexo, cpf, peso, altura, convenio, motivo, doencas, alergias,
+          medicamentos, hist_familiar: histFamiliar, atividade, alimentacao,
+          estresse, sono, tabagismo, obs,
+        });
+
+        document.getElementById('modalResumo').innerHTML =
+          `<strong>${nome}</strong><br>📧 ${email}<br>📝 ${motivo.slice(0, 80)}${motivo.length > 80 ? '…' : ''}<br>😓 Estresse: ${estresse}/10`;
+        document.getElementById('modalSucesso').classList.add('open');
+
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        alert('Não foi possível enviar a pré-avaliação. Tente novamente ou entre em contato pelo telefone (00) 00000-0000.');
+      } finally {
+        btn.disabled          = false;
+        label.style.display   = 'inline';
+        spinner.style.display = 'none';
+      }
+    });
+
+    // Inicia no step 1
+    showStep(1);
+  </script>
+
+</body>
+</html>
