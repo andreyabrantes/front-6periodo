@@ -140,6 +140,14 @@ Carregadas via Google Fonts.
 
 Não requer instalação ou build. Basta abrir qualquer arquivo diretamente no navegador:
 
+```bash
+# Clone o repositório
+git clone https://github.com/andreyabrantes/front-6periodo.git
+
+# Abra no navegador
+open index.html
+# ou arraste o arquivo para o navegador
+```
 ---
 
 ## 📄 Membros do Projeto
@@ -157,11 +165,3 @@ Projeto acadêmico — Disciplina de **Engenharia de Software**.
 
 ---
 
-```bash
-# Clone o repositório
-git clone https://github.com/andreyabrantes/front-6periodo.git
-
-# Abra no navegador
-open index.html
-# ou arraste o arquivo para o navegador
-```
