@@ -140,6 +140,23 @@ Carregadas via Google Fonts.
 
 Não requer instalação ou build. Basta abrir qualquer arquivo diretamente no navegador:
 
+---
+
+## 📄 Membros do Projeto
+
+Projeto acadêmico — Disciplina de **Engenharia de Software**.
+
+| Membro | Matrícula | Papel |
+|--------|-----------|-------|
+| Andrey Campos | 06009553 | Desenvolvedor |
+| Gustavo Ramos | 06009333 | Desenvolvedor |
+| Cristiano Cordeiro | 06010709 | Desenvolvedor |
+| Nathan Salles Ramos | 06009233 | Desenvolvedor |
+| Lucas Gabriel | 06009936 | Desenvolvedor |
+| Julia Scarpi | 06006846 | Desenvolvedor |
+
+---
+
 ```bash
 # Clone o repositório
 git clone https://github.com/andreyabrantes/front-6periodo.git
