@@ -160,7 +160,6 @@ Projeto acadêmico — Disciplina de **Engenharia de Software**.
 | Gustavo Ramos | 06009333 | 
 | Cristiano Cordeiro | 06010709 | 
 | Nathan Salles Ramos | 06009233 |
-| Lucas Gabriel | 06009936 |
 | Julia Scarpi | 06006846 |
 
 ---
