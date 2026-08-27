@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="pre-avaliacao.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Backend API helpers -->
+  <script src="api.js"></script>
 </head>
 <body>
 
@@ -442,25 +444,69 @@
       const sono        = document.querySelector('input[name="sono"]:checked')?.value            || 'Não informado';
       const tabagismo   = document.querySelector('input[name="tabagismo"]:checked')?.value       || 'Não informado';
 
+      // Objeto enviado ao back-end (tabela pre_avaliacoes.respostas).
+      const payload = {
+        nomeCompleto: nome,
+        email,
+        telefone,
+        dataNasc,
+        sexo,
+        cpf,
+        peso,
+        altura,
+        convenio,
+        motivo,
+        doencas,
+        alergias,
+        medicamentos,
+        historicoFamiliar: histFamiliar,
+        atividadeFisica: atividade,
+        alimentacao,
+        nivelEstresse: estresse,
+        sono,
+        tabagismo,
+        observacoes: obs,
+      };
+
       btn.disabled          = true;
       label.style.display   = 'none';
       spinner.style.display = 'inline-flex';
 
       try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          to_name: nome, to_email: email, telefone, data_nasc: dataNasc,
-          sexo, cpf, peso, altura, convenio, motivo, doencas, alergias,
-          medicamentos, hist_familiar: histFamiliar, atividade, alimentacao,
-          estresse, sono, tabagismo, obs,
-        });
+        // 1) Persiste a pré-avaliação no banco via API (novo).
+        await postJSON('/api/pre-avaliacao', payload);
 
-        document.getElementById('modalResumo').innerHTML =
-          `<strong>${nome}</strong><br>📧 ${email}<br>📝 ${motivo.slice(0, 80)}${motivo.length > 80 ? '…' : ''}<br>😓 Estresse: ${estresse}/10`;
+        // 2) Envia o e-mail (fallback já existente).
+        try {
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            to_name: nome, to_email: email, telefone, data_nasc: dataNasc,
+            sexo, cpf, peso, altura, convenio, motivo, doencas, alergias,
+            medicamentos, hist_familiar: histFamiliar, atividade, alimentacao,
+            estresse, sono, tabagismo, obs,
+          });
+        } catch (emailErr) {
+          console.warn('EmailJS falhou, mas a pré-avaliação foi salva:', emailErr);
+        }
+
+        const modalResumo = document.getElementById('modalResumo');
+        modalResumo.replaceChildren();
+        const strongNome = document.createElement('strong');
+        strongNome.textContent = nome;
+        const motivoResumo = motivo.slice(0, 80) + (motivo.length > 80 ? '…' : '');
+        modalResumo.append(
+          strongNome,
+          document.createElement('br'),
+          `📧 ${email}`,
+          document.createElement('br'),
+          `📝 ${motivoResumo}`,
+          document.createElement('br'),
+          `😓 Estresse: ${estresse}/10`
+        );
         document.getElementById('modalSucesso').classList.add('open');
 
       } catch (err) {
-        console.error('EmailJS error:', err);
-        alert('Não foi possível enviar a pré-avaliação. Tente novamente ou entre em contato pelo telefone (00) 00000-0000.');
+        console.error('Erro ao salvar pré-avaliação:', err);
+        alert('Não foi possível salvar a pré-avaliação. Tente novamente ou entre em contato pelo telefone (00) 00000-0000.');
       } finally {
         btn.disabled          = false;
         label.style.display   = 'inline';
