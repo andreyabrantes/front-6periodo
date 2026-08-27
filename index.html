@@ -103,7 +103,7 @@
     <div class="info-cards">
 
       <!-- CARD 1 -->
-      <div class="info-card green" onclick="toggleCard(this)">
+      <div class="info-card green" tabindex="0" aria-expanded="false">
         <div class="info-card-header">
           <div class="info-icon">🩺</div>
           <div>
@@ -128,7 +128,7 @@
       </div>
 
       <!-- CARD 2 -->
-      <div class="info-card purple" onclick="toggleCard(this)">
+      <div class="info-card purple" tabindex="0" aria-expanded="false">
         <div class="info-card-header">
           <div class="info-icon">🌸</div>
           <div>
@@ -154,7 +154,7 @@
       </div>
 
       <!-- CARD 3 -->
-      <div class="info-card blue" onclick="toggleCard(this)">
+      <div class="info-card blue" tabindex="0" aria-expanded="false">
         <div class="info-card-header">
           <div class="info-icon">⚗️</div>
           <div>
@@ -225,33 +225,7 @@
     <p>📍 Rua das Flores, 123 · São Paulo, SP &nbsp;|&nbsp; 📞 (00) 00000-0000</p>
   </footer>
 
-  <script>
-    // Hamburger menu
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('nav-open');
-      hamburger.classList.toggle('active');
-    });
-    document.addEventListener('click', (e) => {
-      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-        navLinks.classList.remove('nav-open');
-        hamburger.classList.remove('active');
-      }
-    });
-
-    function toggleCard(card) {
-      const isOpen = card.classList.contains('open');
-      document.querySelectorAll('.info-card').forEach(c => c.classList.remove('open'));
-      if (!isOpen) card.classList.add('open');
-    }
-
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.servicos, .depoimentos, .cta').forEach(el => observer.observe(el));
-  </script>
+  <script src="script.js"></script>
 
 </body>
 </html>

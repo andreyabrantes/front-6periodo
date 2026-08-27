@@ -1,3 +1,17 @@
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('nav-open');
+  hamburger.classList.toggle('active');
+});
+document.addEventListener('click', (e) => {
+  if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+    navLinks.classList.remove('nav-open');
+    hamburger.classList.remove('active');
+  }
+});
+
 // Accordion — delegação de eventos + teclado
 function toggleCard(card) {
   const isOpen = card.classList.contains('open');

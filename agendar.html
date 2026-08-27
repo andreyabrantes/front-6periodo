@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Backend API helpers -->
+  <script src="api.js"></script>
 </head>
 <body>
 
@@ -142,7 +144,7 @@
     <div class="modal">
       <div class="modal-icon">⚠️</div>
       <h3>Ops! Algo deu errado.</h3>
-      <p>Não foi possível enviar o e-mail de confirmação. Tente novamente ou entre em contato pelo telefone <strong>(00) 00000-0000</strong>.</p>
+      <p>Não foi possível concluir o agendamento. Verifique sua conexão e tente novamente, ou entre em contato pelo telefone <strong>(00) 00000-0000</strong>.</p>
       <button class="btn-submit" onclick="document.getElementById('modalErro').classList.remove('open')">Tentar novamente</button>
     </div>
   </div>
@@ -316,25 +318,52 @@
       setLoading(true);
 
       try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          to_name:    nome,
-          to_email:   email,
-          telefone:   telefone,
-          tipo:       tipo,
-          data:       dataFmt,
-          data_curta: d.toLocaleDateString('pt-BR', { day:'numeric', month:'long' }),
-          dia_semana: diaSemana,
-          horario:    state.selectedSlot,
-          obs:        obs || 'Nenhuma observação informada.',
+        // 1) Persiste o agendamento no banco via API (novo).
+        await postJSON('/api/agendamentos', {
+          nomeCliente: nome,
+          servico:     tipo,
+          data:        toISODate(d),
+          horario:     state.selectedSlot,
+          email:       email,
+          telefone:    telefone,
+          observacoes: obs,
         });
 
+        // 2) Envia o e-mail de confirmação (fallback já existente).
+        try {
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            to_name:    nome,
+            to_email:   email,
+            telefone:   telefone,
+            tipo:       tipo,
+            data:       dataFmt,
+            data_curta: d.toLocaleDateString('pt-BR', { day:'numeric', month:'long' }),
+            dia_semana: diaSemana,
+            horario:    state.selectedSlot,
+            obs:        obs || 'Nenhuma observação informada.',
+          });
+        } catch (emailErr) {
+          console.warn('EmailJS falhou, mas o agendamento foi salvo:', emailErr);
+        }
+
         document.getElementById('modalEmail').textContent  = email;
-        document.getElementById('modalDetail').innerHTML   =
-          `<strong>${nome}</strong><br>📅 ${dataFmt}<br>🕐 ${state.selectedSlot}<br>📋 ${tipo}`;
+        const modalDetail = document.getElementById('modalDetail');
+        modalDetail.replaceChildren();
+        const strongNome = document.createElement('strong');
+        strongNome.textContent = nome;
+        modalDetail.append(
+          strongNome,
+          document.createElement('br'),
+          `📅 ${dataFmt}`,
+          document.createElement('br'),
+          `🕐 ${state.selectedSlot}`,
+          document.createElement('br'),
+          `📋 ${tipo}`
+        );
         document.getElementById('modalOverlay').classList.add('open');
 
       } catch (err) {
-        console.error('EmailJS error:', err);
+        console.error('Erro ao agendar:', err);
         document.getElementById('modalErro').classList.add('open');
       } finally {
         setLoading(false);
