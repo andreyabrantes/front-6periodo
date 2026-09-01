@@ -75,6 +75,14 @@ const RE_DATA = /^\d{4}-\d{2}-\d{2}$/;
 const RE_HORARIO = /^\d{2}:\d{2}$/;
 const RE_EMAIL = /^[^\s@]+@[^\s@]+$/;
 
+function dataPassada(data) {
+  const [ano, mes, dia] = data.split('-').map(Number);
+  const d = new Date(ano, mes - 1, dia);
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  return d < hoje;
+}
+
 // ── Agendamentos ───────────────────────────────────────────────────────────
 
 // POST /api/agendamentos — valida e insere um agendamento.
@@ -95,7 +103,11 @@ app.post('/api/agendamentos', (req, res) => {
   const erros = [];
   if (!nomeCliente) erros.push('nomeCliente é obrigatório');
   if (!servico) erros.push('servico é obrigatório');
-  if (!RE_DATA.test(data)) erros.push('data é obrigatória (formato YYYY-MM-DD)');
+  if (!RE_DATA.test(data)) {
+    erros.push('data é obrigatória (formato YYYY-MM-DD)');
+  } else if (dataPassada(data)) {
+    erros.push('data não pode estar no passado');
+  }
   if (!RE_HORARIO.test(horario)) erros.push('horario é obrigatório (formato HH:MM)');
   if (email && !RE_EMAIL.test(email)) erros.push('email inválido');
 
@@ -194,6 +206,27 @@ app.get('/api/pre-avaliacao', (req, res) => {
     });
 
     res.json(resultado);
+  });
+});
+
+// ── Disponibilidade ────────────────────────────────────────────────────────
+
+// GET /api/horarios-ocupados — lista os horários já ocupados na data informada.
+app.get('/api/horarios-ocupados', (req, res) => {
+  const data = typeof req.query.data === 'string' ? req.query.data.trim() : '';
+
+  if (!RE_DATA.test(data)) {
+    return res.status(400).json({ error: 'Parâmetro data é obrigatório (formato YYYY-MM-DD)' });
+  }
+
+  const sql = 'SELECT DISTINCT horario FROM agendamentos WHERE data = ? ORDER BY horario ASC';
+
+  db.all(sql, [data], (err, rows) => {
+    if (err) {
+      console.error('Erro ao consultar horários ocupados:', err.message);
+      return res.status(500).json({ error: 'Erro ao consultar horários ocupados' });
+    }
+    res.json({ data, ocupados: rows.map((r) => r.horario) });
   });
 });
 

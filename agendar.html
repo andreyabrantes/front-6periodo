@@ -173,8 +173,11 @@
     });
 
     // ── Estado ──
-    const state = { year: 0, month: 0, selectedDate: null, selectedSlot: null };
-    const TAKEN     = { '09:00': true, '11:00': true, '14:30': true };
+    const state = {
+      year: 0, month: 0, selectedDate: null, selectedSlot: null,
+      taken: new Set(),
+      slotsStatus: 'idle',
+    };
     const ALL_SLOTS = ['08:00','09:00','10:00','11:00','13:00','14:00','14:30','15:30','16:00','17:00'];
     const MONTHS    = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
     const WEEKDAYS  = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
@@ -224,9 +227,32 @@
       }
     }
 
-    function selectDate(date) {
+    async function selectDate(date) {
       state.selectedDate = date; state.selectedSlot = null;
+      state.taken = new Set();
+      state.slotsStatus = 'loading';
       renderCalendar(); renderSlots(); updateSummary(); updateSubmit();
+
+      await horariosOcupados(date);
+      renderSlots(); updateSubmit();
+    }
+
+    async function horariosOcupados(date) {
+      const iso = toISODate(date);
+      const mesmaData = () =>
+        state.selectedDate && toISODate(state.selectedDate) === iso;
+
+      try {
+        const { ocupados } = await getJSON(`/api/horarios-ocupados?data=${iso}`);
+        if (!mesmaData()) return;
+        state.taken = new Set(ocupados || []);
+        state.slotsStatus = 'ok';
+      } catch (err) {
+        if (!mesmaData()) return;
+        console.warn('Não foi possível carregar os horários ocupados:', err);
+        state.taken = new Set();
+        state.slotsStatus = 'erro';
+      }
     }
 
     function renderSlots() {
@@ -241,7 +267,9 @@
         btn.textContent = slot;
         btn.className  = 'slot-btn';
 
-        if (TAKEN[slot]) {
+        if (state.slotsStatus === 'loading') {
+          btn.disabled = true;
+        } else if (state.taken.has(slot)) {
           btn.classList.add('taken'); btn.disabled = true;
         } else {
           if (state.selectedSlot === slot) btn.classList.add('selected');
@@ -328,6 +356,8 @@
           telefone:    telefone,
           observacoes: obs,
         });
+
+        state.taken.add(state.selectedSlot);
 
         // 2) Envia o e-mail de confirmação (fallback já existente).
         try {
