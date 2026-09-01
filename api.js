@@ -22,6 +22,17 @@ async function postJSON(url, payload) {
   return data;
 }
 
+async function getJSON(url) {
+  const res = await fetch(`${API_BASE}${url}`);
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.error || 'Erro inesperado no servidor');
+  }
+
+  return data;
+}
+
 // Converte um Date em "YYYY-MM-DD" sem deslocamento de fuso horário.
 function toISODate(date) {
   const y = date.getFullYear();
